@@ -1,6 +1,6 @@
 # ChitVault
 
-ChitVault is a Jetpack Compose Android starter app scaffolded with MVVM, Dagger Hilt, Room, and Firebase integrations.
+ChitVault is an Android app developed as a Chit Fund related product, built with Jetpack Compose and modern Android architecture.
 
 ## Included setup
 
@@ -42,6 +42,6 @@ The app currently expects Firebase Realtime Database nodes like this:
 
 ## Important notes
 
-- Add your `google-services.json` file under `/Users/nandagopal/Documents/New project/app/google-services.json` before building.
+- Add your `google-services.json` file under the `app/` directory before building.
 - Firebase dependencies are wired, but the project cannot build successfully until that config file is present.
 - `creditedAmount` was added to support the Home card requirement.

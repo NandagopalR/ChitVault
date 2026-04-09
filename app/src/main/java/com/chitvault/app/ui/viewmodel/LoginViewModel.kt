@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val remoteConfigRepository: RemoteConfigRepository,
+    private val sessionManager: com.chitvault.app.data.local.SessionManager,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(LoginUiState())
@@ -62,6 +63,7 @@ class LoginViewModel @Inject constructor(
             return
         }
 
+        sessionManager.isLoggedIn = true
         onSuccess()
     }
 

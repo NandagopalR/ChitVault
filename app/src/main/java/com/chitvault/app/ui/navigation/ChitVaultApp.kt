@@ -10,17 +10,23 @@ import androidx.navigation.compose.rememberNavController
 import com.chitvault.app.ui.screens.adduser.AddUserScreen
 import com.chitvault.app.ui.screens.home.HomeScreen
 import com.chitvault.app.ui.screens.login.LoginScreen
+import com.chitvault.app.ui.screens.settings.SettingsScreen
 import com.chitvault.app.ui.viewmodel.AddUserViewModel
 import com.chitvault.app.ui.viewmodel.HomeViewModel
 import com.chitvault.app.ui.viewmodel.LoginViewModel
+import com.chitvault.app.ui.viewmodel.SettingsViewModel
 
 @Composable
-fun ChitVaultApp(modifier: Modifier = Modifier) {
+fun ChitVaultApp(
+    modifier: Modifier = Modifier,
+    isLoggedIn: Boolean = false,
+) {
     val navController = rememberNavController()
+    val startDestination = if (isLoggedIn) Destinations.Home.route else Destinations.Login.route
 
     NavHost(
         navController = navController,
-        startDestination = Destinations.Login.route,
+        startDestination = startDestination,
         modifier = modifier,
     ) {
         composable(Destinations.Login.route) {
@@ -50,6 +56,7 @@ fun ChitVaultApp(modifier: Modifier = Modifier) {
             HomeScreen(
                 viewModel = viewModel,
                 onAddUser = { navController.navigate(Destinations.AddUser.route) },
+                onSettings = { navController.navigate(Destinations.Settings.route) },
             )
         }
         composable(Destinations.AddUser.route) {
@@ -65,6 +72,19 @@ fun ChitVaultApp(modifier: Modifier = Modifier) {
                 onNavigateBack = { navController.popBackStack() },
             )
         }
+        composable(Destinations.Settings.route) {
+            val viewModel: SettingsViewModel = hiltViewModel()
+            SettingsScreen(
+                viewModel = viewModel,
+                onNavigateBack = { navController.popBackStack() },
+                onLoggedOut = {
+                    navController.navigate(Destinations.Login.route) {
+                        popUpTo(0) { inclusive = true }
+                    }
+                },
+            )
+        }
     }
 }
+
 

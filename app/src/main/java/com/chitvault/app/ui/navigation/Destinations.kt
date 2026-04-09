@@ -4,4 +4,5 @@ sealed class Destinations(val route: String) {
     data object Login : Destinations("login")
     data object Home : Destinations("home")
     data object AddUser : Destinations("add_user")
+    data object Settings : Destinations("settings")
 }

@@ -10,15 +10,19 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Refresh
+import androidx.compose.material.icons.rounded.Settings
+import androidx.compose.material.icons.rounded.Shuffle
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -45,6 +49,7 @@ import com.chitvault.app.ui.viewmodel.HomeViewModel
 fun HomeScreen(
     viewModel: HomeViewModel,
     onAddUser: () -> Unit,
+    onSettings: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -77,12 +82,7 @@ fun HomeScreen(
                         actionIconContentColor = Color.White,
                     ),
                     actions = {
-                        IconButton(onClick = onAddUser) {
-                            Icon(
-                                imageVector = Icons.Rounded.Add,
-                                contentDescription = "Add Member",
-                            )
-                        }
+                        // Order: Refresh, Gear, Add
                         IconButton(
                             onClick = viewModel::refresh,
                             enabled = !uiState.isLoading,
@@ -102,7 +102,33 @@ fun HomeScreen(
                                 )
                             }
                         }
+                        IconButton(onClick = onSettings) {
+                            Icon(
+                                imageVector = Icons.Rounded.Settings,
+                                contentDescription = "Settings",
+                            )
+                        }
+                        IconButton(onClick = onAddUser) {
+                            Icon(
+                                imageVector = Icons.Rounded.Add,
+                                contentDescription = "Add Member",
+                            )
+                        }
                     },
+                )
+            },
+            floatingActionButton = {
+                ExtendedFloatingActionButton(
+                    onClick = viewModel::shuffle,
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Rounded.Shuffle,
+                            contentDescription = null,
+                        )
+                    },
+                    text = { Text("Shuffle") },
+                    containerColor = MaterialTheme.colorScheme.secondary,
+                    contentColor = Color.White,
                 )
             },
         ) { paddingValues ->
@@ -213,4 +239,5 @@ private fun PersonCard(person: PersonModel) {
         }
     }
 }
+
 

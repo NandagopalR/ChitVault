@@ -19,12 +19,15 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val syncState = MutableStateFlow(HomeUiState())
+    private val _shuffleTrigger = MutableStateFlow(0)
 
     val uiState: StateFlow<HomeUiState> = combine(
         syncState,
         repository.observePersons(),
-    ) { sync, persons ->
-        sync.copy(persons = persons.sortedBy { it.isAmountCredited })
+        _shuffleTrigger,
+    ) { sync, persons, trigger ->
+        val sorted = persons.sortedBy { it.isAmountCredited }
+        sync.copy(persons = if (trigger > 0) sorted.shuffled() else sorted)
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
@@ -52,4 +55,9 @@ class HomeViewModel @Inject constructor(
                 }
         }
     }
+
+    fun shuffle() {
+        _shuffleTrigger.update { it + 1 }
+    }
 }
+

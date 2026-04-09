@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "761674517771",
+    "project_id": "chitvault-35fcd",
+    "storage_bucket": "chitvault-35fcd.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:761674517771:android:ef6ab8a22e4163b881260e",
+        "android_client_info": {
+          "package_name": "com.chitvault.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAAmwVboQsOiZSIHRBYoM5aeTJC3LYH1KU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

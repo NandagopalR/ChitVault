@@ -47,6 +47,16 @@ class FirebaseRepository @Inject constructor(
         }
     }
 
+    suspend fun addPerson(person: PersonModel): Result<Unit> = runCatching {
+        suspendCancellableCoroutine { continuation ->
+            val ref = firebaseDatabase.reference.child(PERSONS_NODE).push()
+            val personWithId = person.copy(id = ref.key ?: person.id)
+            ref.setValue(personWithId)
+                .addOnSuccessListener { if (continuation.isActive) continuation.resume(Unit) }
+                .addOnFailureListener { if (continuation.isActive) continuation.resumeWithException(it) }
+        }
+    }
+
     suspend fun syncPersons(): Result<Unit> {
         return runCatching {
             val snapshot = firebaseDatabase.reference.child(PERSONS_NODE).awaitOnce()
